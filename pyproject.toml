@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ja_py"
+version = "0.1.0"
+description = ""
+authors = ["zllin <mark@xmu.edu.cn>"]
+readme = "README.md"
+packages = [{include = "ja_py"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+anywidget = {extras = ["dev"], version = "^0.7.0"}
+
+
+[[tool.poetry.source]]
+name = "ustc"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
+secondary = false
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
