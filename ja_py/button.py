@@ -3,7 +3,7 @@ import anywidget
 import traitlets
 
 
-ESM = pathlib.Path("./ja-fe/dist/button.js")
+ESM = pathlib.Path("./ja-fe/dist/Button.js")
 CSS = ""  # ("styles.css").read_text()
 
 

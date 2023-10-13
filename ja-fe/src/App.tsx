@@ -1,24 +1,11 @@
 import React from 'react';
-// import { Button, Modal } from 'antd';
-import Button from "./component/Button"
-import Input from "./component/Input"
+const path = './component/process.env.COMPONENT_NAME.tsx';
+const temp = import.meta.glob('./component/process.env.COMPONENT_NAME.tsx', { eager: true })
+// console.log({temp})
+const Widget = (temp[path] as any).default
 
-const name = process.env.COMPONENT_NAME
+// console.log(Widget)
 
-const App: React.FC = () => {
-  let result = <></>
-  switch (name) {
-    case "button":
-      result = <Button />
-      break;
-    case "input":
-      result = <Input />
-      break;
-    default:
-      break;
-  }
-
-  return result;
-};
+const App: React.FC = () => <Widget />;
 
 export default App;

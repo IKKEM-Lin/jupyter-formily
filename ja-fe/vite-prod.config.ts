@@ -13,7 +13,7 @@ export default defineConfig({
   mode: "production",
   define: {
     'process.env.NODE_ENV': '"production"',
-    'process.env.COMPONENT_NAME': `"${componentName}"`
+    'process.env.COMPONENT_NAME': `${componentName}`
   },
 	build: {
 		lib: {
