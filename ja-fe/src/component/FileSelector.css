@@ -1,0 +1,11 @@
+.file-selector-list .ant-list-item:hover{
+    background-color: #1677ff50;
+}
+
+.file-selector-list .file-selected {
+    background-color: #1677ff50;
+}
+
+.file-selector-list .ant-list-item {
+    user-select: none;
+}

@@ -8,6 +8,7 @@
     "build:input": "tsc && vite build -c vite-prod.config.js -w --mode=Input",
     "build:radio": "tsc && vite build -c vite-prod.config.js -w --mode=Radio",
     "build:select": "tsc && vite build -c vite-prod.config.js -w --mode=Select",
+    "build:fileSelector": "tsc && vite build -c vite-prod.config.js -w --mode=FileSelector",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {

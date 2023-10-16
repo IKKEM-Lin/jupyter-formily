@@ -16,6 +16,9 @@ export default defineConfig({
     'process.env.COMPONENT_NAME': `${componentName}`
   },
 	build: {
+    rollupOptions: {
+      // external: ["antd", "react", "react-dom"]
+    },
 		lib: {
 			entry: ["src/main-widget"],
 			formats: ["es"],
