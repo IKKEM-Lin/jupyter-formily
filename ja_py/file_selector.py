@@ -4,8 +4,10 @@ import traitlets
 import os
 
 
-ESM = pathlib.Path("./ja-fe/dist/FileSelector.js")
-CSS = pathlib.Path("./ja-fe/dist/style.css")  # ("styles.css").read_text()
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+
+ESM = os.path.join(os.path.abspath(os.path.join(DIR_PATH, "..")), "ja-fe/dist/FileSelector.js")
+CSS = os.path.join(os.path.abspath(os.path.join(DIR_PATH, "..")), "ja-fe/dist/style.js")
 
 class FileSelector(anywidget.AnyWidget):
     _esm = ESM

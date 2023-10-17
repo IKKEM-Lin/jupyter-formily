@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "build": "tsc && vite build -c vite-prod.config.js --mode=Button && vite build -c vite-prod.config.js --mode=Input && vite build -c vite-prod.config.js --mode=Radio && vite build -c vite-prod.config.js --mode=Select && vite build -c vite-prod.config.js --mode=FileSelector",
     "build:button": "tsc && vite build -c vite-prod.config.js -w --mode=Button",
     "build:input": "tsc && vite build -c vite-prod.config.js -w --mode=Input",
     "build:radio": "tsc && vite build -c vite-prod.config.js -w --mode=Radio",
@@ -15,6 +16,7 @@
     "@anywidget/react": "^0.0.2",
     "@types/node": "^20.8.4",
     "antd": "^5.10.0",
+    "@ant-design/icons": "^5.2.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

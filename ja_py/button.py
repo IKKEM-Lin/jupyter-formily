@@ -1,9 +1,12 @@
 import pathlib
 import anywidget
 import traitlets
+import os
 
 
-ESM = pathlib.Path("./ja-fe/dist/Button.js")
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+
+ESM = os.path.join(os.path.abspath(os.path.join(DIR_PATH, "..")), "ja-fe/dist/Button.js")
 CSS = ""  # ("styles.css").read_text()
 
 

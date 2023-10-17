@@ -1,9 +1,11 @@
 import pathlib
 import anywidget
 import traitlets
+import os
 
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 
-ESM = pathlib.Path("./ja-fe/dist/Select.js")
+ESM = os.path.join(os.path.abspath(os.path.join(DIR_PATH, "..")), "ja-fe/dist/Select.js")
 CSS = ""  # ("styles.css").read_text()
 
 

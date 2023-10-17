@@ -5,6 +5,7 @@ description = ""
 authors = ["zllin <mark@xmu.edu.cn>"]
 readme = "README.md"
 packages = [{include = "ja_py"}]
+include = ["ja-fe/dist/*.js", "ja-fe/dist/*.css"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -14,8 +15,7 @@ anywidget = {extras = ["dev"], version = "^0.7.0"}
 [[tool.poetry.source]]
 name = "ustc"
 url = "https://mirrors.aliyun.com/pypi/simple/"
-default = true
-secondary = false
+priority = "default"
 
 
 [build-system]

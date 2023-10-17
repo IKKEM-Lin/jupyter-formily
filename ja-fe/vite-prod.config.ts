@@ -19,6 +19,7 @@ export default defineConfig({
     rollupOptions: {
       // external: ["antd", "react", "react-dom"]
     },
+    emptyOutDir: false,
 		lib: {
 			entry: ["src/main-widget"],
 			formats: ["es"],
