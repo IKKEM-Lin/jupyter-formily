@@ -30,8 +30,9 @@ import {
 } from "@formily/antd-v5";
 import { createForm } from "@formily/core";
 import { createSchemaField } from "@formily/react";
-import { Card, Slider, Rate } from "antd";
-import React, { useEffect } from "react";
+import { Card, Slider, Rate, Modal } from "antd";
+import React, { useEffect, useState } from "react";
+import FileSelectorForFormily from "./FileSelectorForFormily";
 
 const Text: React.FC<{
   value?: string;
@@ -73,6 +74,7 @@ const SchemaField = createSchemaField({
     Card,
     Slider,
     Rate,
+    FileSelectorForFormily,
   },
 });
 
@@ -81,18 +83,41 @@ const form = createForm();
 // const schema = ;
 
 const Formily = () => {
-  const [schema] = useModelState<any>("schema")
-  const [value, setValue] = useModelState("value")
+  const [schema] = useModelState<any>("schema");
+  const [value, setValue] = useModelState("value");
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const handleOK = (data: any) => {
+    setValue(data)
+    setIsModalOpen(false);
+    // setSelected(value);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    // setSelected(value);
+  };
+
   useEffect(() => {
-    console.log(value)
-  }, [value])
+    console.log(value);
+  }, [value]);
   return (
-    <Form form={form} layout="vertical">
-      <SchemaField schema={schema} />
-      <FormButtonGroup>
-        <Submit onSubmit={data => setValue(data)}>提交</Submit>
-      </FormButtonGroup>
-    </Form>
+    <Modal
+      title="Basic Modal"
+      open={isModalOpen}
+      footer= {null}
+      // onOk={null}
+      onCancel={handleCancel}
+    >
+      <div onKeyDown={evt => evt.stopPropagation()}>
+        <Form form={form} layout="vertical">
+          <SchemaField schema={schema} />
+          <FormButtonGroup>
+            <Submit onSubmit={handleOK}>提交</Submit>
+          </FormButtonGroup>
+        </Form>
+      </div>
+    </Modal>
   );
 };
 

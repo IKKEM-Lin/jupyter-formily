@@ -40,35 +40,6 @@ default_schema = {
       "name": "accuracy",
       "x-designable-id": "ddrtibho837",
       "x-index": 0
-    },
-    "style": {
-      "type": "string",
-      "title": "style",
-      "x-decorator": "FormItem",
-      "x-component": "Radio.Group",
-      "enum": [
-        {
-          "children": [],
-          "label": "metal",
-          "value": "metal"
-        },
-        {
-          "children": [],
-          "label": "liqud",
-          "value": "liqud"
-        },
-        {
-          "children": [],
-          "label": "gas",
-          "value": "gas"
-        }
-      ],
-      "x-validator": [],
-      "x-component-props": {},
-      "x-decorator-props": {},
-      "name": "style",
-      "x-designable-id": "8j01zxpbhn3",
-      "x-index": 1
     }
   }
 }
@@ -79,9 +50,29 @@ class Formily(anywidget.AnyWidget):
     schema = traitlets.Dict({}).tag(sync=True)
     value = traitlets.Dict({}).tag(sync=True)
     # label = traitlets.Unicode("").tag(sync=True)
+    os_sep= traitlets.Unicode(os.sep).tag(sync=True)
+    pwd = traitlets.Unicode("").tag(sync=True)
+    files = traitlets.List([]).tag(sync=True)
+    msg = traitlets.Dict({"content": ""}).tag(sync=True)
 
     def __init__(self, schema = default_schema):
         super(Formily, self).__init__()
         # self.label = label
         self.value = {"default": 1}
         self.schema = schema
+
+        self.pwd = os.getcwd()
+        self._get_files()
+        self.observe(self._get_files, names='pwd')
+    
+    def _get_files(self, change = ""):
+        path = self.pwd
+        try:
+            files = os.listdir(path)
+        except PermissionError as e:
+            self.msg = {"content": str(e), "type": "error"}
+            self.pwd = os.path.dirname(self.pwd)
+            return
+        files = [{"name": file, "isDir":  os.path.isdir(os.path.join(path, file))} for file in files]
+        files.sort(key=lambda item: item["isDir"], reverse=True)
+        self.files = files
