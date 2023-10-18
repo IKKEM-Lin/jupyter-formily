@@ -31,8 +31,9 @@ interface IReactiveFieldProps<T> {
 }
 
 interface IFileSelectorForFormily extends IReactiveFieldProps<string> {
-  label: string;
-  dir_select: boolean;
+  label?: string;
+  dir_select?: boolean;
+  default_pwd?: string;
 }
 
 const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
@@ -50,7 +51,16 @@ const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
     const [selected, setSelected] = useState<string>(value || "");
 
     useEffect(() => {
+      if (isModalOpen && props.default_pwd) {
+        setPwd(props.default_pwd)
+      }
+    }, [props.default_pwd, isModalOpen]);
+
+    useEffect(() => {
       try {
+        if (!isModalOpen) {
+          return
+        }
         msg?.content && message[msg.type || "warning"](msg.content);
         setTimeout(() => {
           setMsg({ content: "" });
