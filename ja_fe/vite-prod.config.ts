@@ -17,7 +17,10 @@ export default defineConfig({
   },
 	build: {
     rollupOptions: {
-      // external: ["antd", "react", "react-dom"]
+      // external: ["antd", "react", "react-dom"],
+      output: {
+        assetFileNames: `${componentName}.[ext]`
+      }
     },
     emptyOutDir: false,
 		lib: {

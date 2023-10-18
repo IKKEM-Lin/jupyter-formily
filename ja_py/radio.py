@@ -1,11 +1,9 @@
-import pathlib
 import anywidget
 import traitlets
 import os
+from ._contant import PARENT_DIR_PATH
 
-DIR_PATH = os.path.dirname(os.path.realpath(__file__))
-
-ESM = os.path.join(os.path.abspath(os.path.join(DIR_PATH, "..")), "ja-fe/dist/Radio.js")
+ESM = os.path.join(PARENT_DIR_PATH, "ja_fe/dist/Radio.js")
 CSS = ""  # ("styles.css").read_text()
 
 

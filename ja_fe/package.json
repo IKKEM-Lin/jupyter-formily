@@ -1,0 +1,36 @@
+{
+  "name": "ja-fe",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "node ./scripts/build.mjs",
+    "dev": "node ./scripts/dev.mjs"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@anywidget/react": "^0.0.2",
+    "@formily/antd-v5": "^1.1.7",
+    "@formily/core": "^2.2.29",
+    "@formily/react": "^2.2.29",
+    "@types/node": "^20.8.4",
+    "antd": "^5.10.0",
+    "less": "^4.2.0",
+    "moment": "^2.29.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.25",
+    "@types/react-dom": "^18.2.11",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "@vitejs/plugin-react": "^4.1.0",
+    "eslint": "^8.51.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "prop-types": "^15.8.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0-beta.4"
+  }
+}

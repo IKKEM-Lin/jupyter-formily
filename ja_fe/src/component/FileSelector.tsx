@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Space, List, Row, Breadcrumb, message } from "antd";
-// import type { RadioGroupProps } from "antd/lib/radio";
 import {
   FolderFilled,
   FolderOpenOutlined,
@@ -150,8 +149,6 @@ const FileSelector: React.FC = () => {
         )}
       >
         <Row>
-          {/* <div>{pwd}</div> */}
-          {/* <div>{selected}</div> */}
           <List
             className="file-selector-list"
             itemLayout="horizontal"
@@ -200,7 +197,6 @@ const FileSelector: React.FC = () => {
                     )
                   }
                   title={item.name}
-                  // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                 />
               </List.Item>
             )}

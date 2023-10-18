@@ -29,10 +29,10 @@ import {
   FormButtonGroup,
 } from "@formily/antd-v5";
 import { createForm } from "@formily/core";
-import { createSchemaField } from "@formily/react";
-import { Card, Slider, Rate, Modal } from "antd";
+import { createSchemaField, ISchema } from "@formily/react";
+import { Card, Slider, Rate, Modal, Button } from "antd";
 import React, { useEffect, useState } from "react";
-import FileSelectorForFormily from "./FileSelectorForFormily";
+import FileSelectorForFormily from "./_FileSelectorForFormily";
 
 const Text: React.FC<{
   value?: string;
@@ -74,49 +74,53 @@ const SchemaField = createSchemaField({
     Card,
     Slider,
     Rate,
-    FileSelectorForFormily,
+    FileSelectorForFormily,  // Custom component
   },
 });
 
 const form = createForm();
 
-// const schema = ;
-
-const Formily = () => {
-  const [schema] = useModelState<any>("schema");
-  const [value, setValue] = useModelState("value");
+const Formily: React.FC = () => {
+  const [schema] = useModelState<ISchema>("schema");
+  const [value, setValue] = useModelState<Record<string, any>>("value");
+  const [showModal] = useModelState<boolean>("show_modal");
   const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const handleOK = (data: any) => {
-    setValue(data)
+  const handleOK = (data: Record<string, any>) => {
+    setValue(data);
     setIsModalOpen(false);
-    // setSelected(value);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    // setSelected(value);
   };
 
   useEffect(() => {
     console.log(value);
   }, [value]);
+
+  const formResult = (
+    <Form form={form} layout="vertical">
+      <SchemaField schema={schema} />
+      <FormButtonGroup>
+        <Submit onSubmit={handleOK}>Update</Submit>
+        {showModal && <Button onClick={handleCancel}>Cancel</Button>}
+      </FormButtonGroup>
+    </Form>
+  );
+
+  if (!showModal) {
+    return formResult;
+  }
+
   return (
     <Modal
-      title="Basic Modal"
+      title=""
       open={isModalOpen}
-      footer= {null}
-      // onOk={null}
+      footer={null}
       onCancel={handleCancel}
     >
-      <div onKeyDown={evt => evt.stopPropagation()}>
-        <Form form={form} layout="vertical">
-          <SchemaField schema={schema} />
-          <FormButtonGroup>
-            <Submit onSubmit={handleOK}>提交</Submit>
-          </FormButtonGroup>
-        </Form>
-      </div>
+      <div onKeyDown={(evt) => evt.stopPropagation()}>{formResult}</div>
     </Modal>
   );
 };

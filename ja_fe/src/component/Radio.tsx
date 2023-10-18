@@ -5,7 +5,7 @@ import { useModelState } from "@anywidget/react";
 
 const Radio: React.FC = () => {
   const [value, setValue] = useModelState<string>("value");
-  const [props] = useModelState<any>("props");
+  const [props] = useModelState<RadioGroupProps>("props");
   const [label] = useModelState<string>("label");
   const [options] = useModelState<RadioGroupProps["options"]>("options");
   return (

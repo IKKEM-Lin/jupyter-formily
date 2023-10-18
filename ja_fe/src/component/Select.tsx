@@ -5,7 +5,7 @@ import { useModelState } from "@anywidget/react";
 
 const Select: React.FC = () => {
   const [value, setValue] = useModelState<string>("value");
-  const [props] = useModelState<any>("props");
+  const [props] = useModelState<SelectProps>("props");
   const [label] = useModelState<string>("label");
   const [options] = useModelState<SelectProps["options"]>("options");
   return (

@@ -5,7 +5,7 @@ description = ""
 authors = ["zllin <mark@xmu.edu.cn>"]
 readme = "README.md"
 packages = [{include = "ja_py"}]
-include = ["ja-fe/dist/*.js", "ja-fe/dist/*.css"]
+include = ["ja_fe/dist/*.js", "ja_fe/dist/*.css"]
 
 [tool.poetry.dependencies]
 python = "^3.8"

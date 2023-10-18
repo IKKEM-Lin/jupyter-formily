@@ -1,10 +1,11 @@
 import React from "react";
 import { Input as AntdInput, Space } from "antd";
+import type { InputProps } from "antd/lib/input";
 import { useModelState } from "@anywidget/react";
 
 const Input: React.FC = () => {
   const [value, setValue] = useModelState<string>("value");
-  const [props] = useModelState<any>("props");
+  const [props] = useModelState<InputProps>("props");
   const [label] = useModelState<string>("label");
   return (
     <Space>

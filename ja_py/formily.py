@@ -1,20 +1,18 @@
-import pathlib
 import anywidget
 import traitlets
 import os
+from ._contant import PARENT_DIR_PATH
 
-DIR_PATH = os.path.dirname(os.path.realpath(__file__))
-
-ESM = os.path.join(os.path.abspath(os.path.join(DIR_PATH, "..")), "ja-fe/dist/Formily.js")
-CSS = ""  # ("styles.css").read_text()
+ESM = os.path.join(PARENT_DIR_PATH, f"ja_fe{os.sep}dist{os.sep}Formily.js")
+CSS = os.path.join(PARENT_DIR_PATH, f"ja_fe{os.sep}dist{os.sep}Formily.css")
 
 
 default_schema = {
   "type": "object",
   "properties": {
-    "accuracy": {
+    "example": {
       "type": "string",
-      "title": "accuracy",
+      "title": "Example",
       "x-decorator": "FormItem",
       "x-component": "Radio.Group",
       "enum": [
@@ -47,19 +45,23 @@ default_schema = {
 class Formily(anywidget.AnyWidget):
     _esm = ESM
     _css = CSS
+
+    # generate schema from https://designable-antd.formilyjs.org/
     schema = traitlets.Dict({}).tag(sync=True)
     value = traitlets.Dict({}).tag(sync=True)
-    # label = traitlets.Unicode("").tag(sync=True)
+    show_modal = traitlets.Bool(True).tag(sync=True)
+    
+    # variable for custom file selector
     os_sep= traitlets.Unicode(os.sep).tag(sync=True)
     pwd = traitlets.Unicode("").tag(sync=True)
     files = traitlets.List([]).tag(sync=True)
-    msg = traitlets.Dict({"content": ""}).tag(sync=True)
+    msg = traitlets.Dict({"content": ""}).tag(sync=True) # use for error msg action
 
-    def __init__(self, schema = default_schema):
+    def __init__(self, schema = default_schema, show_modal = True):
         super(Formily, self).__init__()
-        # self.label = label
         self.value = {"default": 1}
         self.schema = schema
+        self.show_modal = show_modal
 
         self.pwd = os.getcwd()
         self._get_files()
