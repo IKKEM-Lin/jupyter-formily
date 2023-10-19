@@ -30,9 +30,12 @@ import {
 } from "@formily/antd-v5";
 import { createForm } from "@formily/core";
 import { createSchemaField, ISchema } from "@formily/react";
-import { Card, Slider, Rate, Modal, Button } from "antd";
+import { Card, Slider, Rate, Modal, Button, Divider } from "antd";
 import React, { useEffect, useState } from "react";
 import FileSelectorForFormily from "./_FileSelectorForFormily";
+
+import type {ISubmitProps} from "@formily/antd-v5";
+import type {ButtonProps} from "antd/lib/button";
 
 const Text: React.FC<{
   value?: string;
@@ -80,11 +83,21 @@ const SchemaField = createSchemaField({
 
 const form = createForm();
 
+interface IOptions {
+  show_modal: boolean;
+  ok_label: string;
+  cancel_label: string;
+  ok_props: ISubmitProps;
+  cancel_props: ButtonProps;
+}
+
 const Formily: React.FC = () => {
   const [schema] = useModelState<ISchema>("schema");
   const [value, setValue] = useModelState<Record<string, any>>("value");
-  const [showModal] = useModelState<boolean>("show_modal");
+  const [options] = useModelState<IOptions>("options");
   const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const {show_modal, ok_label, cancel_label, ok_props, cancel_props} = options;
 
   const handleOK = (data: Record<string, any>) => {
     setValue(data);
@@ -102,14 +115,15 @@ const Formily: React.FC = () => {
   const formResult = (
     <Form form={form} layout="vertical">
       <SchemaField schema={schema} />
+      <Divider />
       <FormButtonGroup>
-        <Submit onSubmit={handleOK}>Update</Submit>
-        {showModal && <Button onClick={handleCancel}>Cancel</Button>}
+        <Submit {...ok_props} onSubmit={handleOK}>{ok_label}</Submit>
+        {show_modal && <Button {...cancel_props} onClick={handleCancel}>{cancel_label}</Button>}
       </FormButtonGroup>
     </Form>
   );
 
-  if (!showModal) {
+  if (!show_modal) {
     return formResult;
   }
 

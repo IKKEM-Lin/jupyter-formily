@@ -10,35 +10,32 @@ CSS = os.path.join(PARENT_DIR_PATH, f"ja_fe{os.sep}dist{os.sep}Formily.css")
 default_schema = {
   "type": "object",
   "properties": {
-    "example": {
-      "type": "string",
-      "title": "Example",
-      "x-decorator": "FormItem",
-      "x-component": "Radio.Group",
-      "enum": [
-        {
-          "children": [],
-          "label": "hight",
-          "value": "hight"
+      "example": {
+        "type": "string",
+        "title": "Example",
+        "x-decorator": "FormItem",
+        "x-component": "Input",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {},
+        "x-designable-id": "cgp0vw9a874",
+        "x-index": 0,
+        "name": "example"
+      },
+      "tip": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "可以前往：https://designable-antd.formilyjs.org/ 设计表单，并获取JSON schema",
+          "style": {
+            "margin": "0px 0px 0px 0px",
+            "display": "flex",
+            "justifyContent": "center"
+          }
         },
-        {
-          "children": [],
-          "label": "medium",
-          "value": "medium"
-        },
-        {
-          "children": [],
-          "label": "low",
-          "value": "low"
-        }
-      ],
-      "x-validator": [],
-      "x-component-props": {},
-      "x-decorator-props": {},
-      "name": "accuracy",
-      "x-designable-id": "ddrtibho837",
-      "x-index": 0
-    }
+        "x-designable-id": "tucchh62ask",
+        "x-index": 1
+      }
   }
 }
 
@@ -49,7 +46,13 @@ class Formily(anywidget.AnyWidget):
     # generate schema from https://designable-antd.formilyjs.org/
     schema = traitlets.Dict({}).tag(sync=True)
     value = traitlets.Dict({}).tag(sync=True)
-    show_modal = traitlets.Bool(True).tag(sync=True)
+    options = traitlets.Dict({
+        "show_modal": True,
+        "ok_label": "Update",
+        "cancel_label": "Cancel",
+        "ok_props": {},
+        "cancel_props": {},
+    }).tag(sync=True)
     
     # variable for custom file selector
     os_sep= traitlets.Unicode(os.sep).tag(sync=True)
@@ -57,11 +60,11 @@ class Formily(anywidget.AnyWidget):
     files = traitlets.List([]).tag(sync=True)
     msg = traitlets.Dict({"content": ""}).tag(sync=True) # use for error msg action
 
-    def __init__(self, schema = default_schema, show_modal = True):
+    def __init__(self, schema = default_schema, options = {}):
         super(Formily, self).__init__()
         self.value = {"default": 1}
         self.schema = schema
-        self.show_modal = show_modal
+        self.options = {**self.options, **options}
 
         self.pwd = os.getcwd()
         self._get_files()

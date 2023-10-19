@@ -32,8 +32,8 @@ interface IReactiveFieldProps<T> {
 
 interface IFileSelectorForFormily extends IReactiveFieldProps<string> {
   label?: string;
-  dir_select?: boolean;
-  default_pwd?: string;
+  select_type?: "folder" | "file" | "both";
+  init_path?: string;
 }
 
 const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
@@ -41,7 +41,8 @@ const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
     // console.log({props})
     const value = props?.value;
     const label = props?.label;
-    const isDirSelect = props?.dir_select || false;
+    const selectType = props?.select_type || "both";
+    const title = label || (selectType === "folder" ? "Folder select" : "File select");
     const [osSep] = useModelState<string>("os_sep");
     const [msg, setMsg] = useModelState<IMsg>("msg");
     const [pwd, setPwd] = useModelState<string>("pwd");
@@ -51,10 +52,10 @@ const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
     const [selected, setSelected] = useState<string>(value || "");
 
     useEffect(() => {
-      if (isModalOpen && props.default_pwd) {
-        setPwd(props.default_pwd)
+      if (isModalOpen && props.init_path) {
+        setPwd(props.init_path)
       }
-    }, [props.default_pwd, isModalOpen]);
+    }, [props.init_path, isModalOpen]);
 
     useEffect(() => {
       try {
@@ -99,7 +100,7 @@ const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
 
     const dataSource = [
       ...firstDirBack,
-      ...(isDirSelect
+      ...(selectType === "folder"
         ? files.filter((file) => file.isDir)
         : (files as IFile[])),
     ];
@@ -127,7 +128,6 @@ const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
       />
     );
 
-    const title = label || (isDirSelect ? "Folder select" : "File select");
 
     return (
       <>
@@ -137,7 +137,6 @@ const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
           </Button>
           {value && (
             <div>
-              <strong>Current {isDirSelect ? "folder" : "file"}: </strong>
               <i>{value}</i>
             </div>
           )}
@@ -174,9 +173,9 @@ const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
           okButtonProps={{ disabled: !canSave }}
           footer={(_, { OkBtn, CancelBtn }) => (
             <>
-              <div style={{ textAlign: "left" }}>
-                <strong>New select: </strong>
-                {selected || "None"}
+              <div style={{ textAlign: "left", height: "20px" }}>
+                {/* <strong>New select: </strong> */}
+                {selected || " "}
               </div>
               <CancelBtn />
               <OkBtn />
@@ -196,7 +195,10 @@ const FileSelectorForFormily: React.FC<IFileSelectorForFormily> =
                     joinPath(pwd, item.name) === selected ? "file-selected" : ""
                   }
                   onClick={() => {
-                    if (isDirSelect) {
+                    if (ind === 0 && item.name === "..") {
+                      return;
+                    }
+                    if (selectType !== "file") {
                       setSelected(joinPath(pwd, item.name));
                     } else {
                       !item.isDir && setSelected(joinPath(pwd, item.name));
