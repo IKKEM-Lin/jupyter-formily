@@ -3,8 +3,8 @@ import traitlets
 import os
 from ._contant import PARENT_DIR_PATH
 
-ESM = os.path.join(PARENT_DIR_PATH, f"ja_fe{os.sep}dist{os.sep}Formily.js")
-CSS = os.path.join(PARENT_DIR_PATH, f"ja_fe{os.sep}dist{os.sep}Formily.css")
+ESM = os.path.join(PARENT_DIR_PATH, f"vendor{os.sep}formily{os.sep}dist{os.sep}Formily.js")
+CSS = os.path.join(PARENT_DIR_PATH, f"vendor{os.sep}formily{os.sep}dist{os.sep}Formily.css")
 
 
 default_schema = {

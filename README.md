@@ -29,7 +29,7 @@ You need to install dependencies both python and javascript. Please make sure yo
 poetry install
 
 # javascript
-cd ja_fe && yarn install
+cd vendor && yarn install
 ```
 
 ## How to build
@@ -40,7 +40,7 @@ cd ja_fe && yarn install
 
 ## How to create a new widget
 Please follow steps below if you need to create a new widget.
-1. Add a [component_name]().tsx file to ```ja_fe/src/component/```. The [component_name]() should start with A to Z, so it can be read as component.
+1. Add a [component_name]().tsx file to ```vendor/src/component/```. The [component_name]() should start with A to Z, so it can be read as component.
 
 ``` tsx
 // Example.tsx
@@ -58,7 +58,7 @@ export default Example;
 
 ```
 
-2. Add a [widget_name]().py file to ```ja_py/```.
+2. Add a [widget_name]().py file to ```jupyter_formily/```.
 ```python
 # example.py
 import anywidget
@@ -66,7 +66,7 @@ import traitlets
 import os
 from ._contant import PARENT_DIR_PATH
 
-ESM = os.path.join(PARENT_DIR_PATH, "ja_fe/dist/Example.js")
+ESM = os.path.join(PARENT_DIR_PATH, "vendor/formily/Example.js")
 CSS = ""
 
 class Example(anywidget.AnyWidget):
@@ -83,7 +83,7 @@ class Example(anywidget.AnyWidget):
 ``` python
 # notebook cell
 
-from ja_py.example import Example
+from jupyter_formily.example import Example
 
 widget = Example("variable_a")
 display(widget)

@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "ja_py"
+name = "jupyter_formily"
 version = "0.1.0"
-description = ""
+description = "Integrates fomily to jupyter notebook, which base on anywidget"
 authors = ["zllin <mark@xmu.edu.cn>"]
 readme = "README.md"
-packages = [{include = "ja_py"}]
-include = ["ja_fe/dist/*.js", "ja_fe/dist/*.css"]
+packages = [{include = "jupyter_formily"}]
+include = ["vendor/formily/dist/*.js", "vendor/formily/dist/*.css"]
 
 [tool.poetry.dependencies]
 python = "^3.8"

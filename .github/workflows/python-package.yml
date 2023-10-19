@@ -33,9 +33,9 @@ jobs:
     - name: Install dependencies
       run: |
         poetry install
-        cd ja_fe
+        cd vendor/formily
         npm install --legacy-peer-deps
-        cd ..
+        cd ../..
     - name: build
       run:
         ./build.sh
