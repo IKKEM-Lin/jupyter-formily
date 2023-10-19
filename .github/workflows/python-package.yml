@@ -34,7 +34,7 @@ jobs:
       run: |
         poetry install
         cd ja_fe
-        npm install
+        npm install --legacy-peer-deps
         cd ..
     - name: build
       run:
