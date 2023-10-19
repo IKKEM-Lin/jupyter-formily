@@ -32,7 +32,7 @@ import { createForm } from "@formily/core";
 import { createSchemaField, ISchema } from "@formily/react";
 import { Card, Slider, Rate, Modal, Button, Divider } from "antd";
 import React, { useEffect, useState } from "react";
-import FileSelectorForFormily from "./_FileSelectorForFormily";
+import PathSelectorForFormily from "./_PathSelectorForFormily";
 
 import type {ISubmitProps} from "@formily/antd-v5";
 import type {ButtonProps} from "antd/lib/button";
@@ -77,7 +77,7 @@ const SchemaField = createSchemaField({
     Card,
     Slider,
     Rate,
-    FileSelectorForFormily,  // Custom component
+    FileSelectorForFormily: PathSelectorForFormily,  // Custom component
   },
 });
 
@@ -116,7 +116,7 @@ const Formily: React.FC = () => {
     <Form form={form} layout="vertical">
       <SchemaField schema={schema} />
       <Divider />
-      <FormButtonGroup>
+      <FormButtonGroup align="right">
         <Submit {...ok_props} onSubmit={handleOK}>{ok_label}</Submit>
         {show_modal && <Button {...cancel_props} onClick={handleCancel}>{cancel_label}</Button>}
       </FormButtonGroup>

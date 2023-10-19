@@ -2,11 +2,11 @@ import { argv, exit } from "process";
 import { spawn } from "child_process";
 import { components } from "./components.mjs";
 
-// console.log(argv)
+// console.log(components)
 const name = argv[argv.length - 1];
 if (!components.includes(name)) {
   console.error(
-    `Error:  ${name} not in "src/component". Please add component name on last (\n eg: npm run dev Button\n)`
+    `Error:  ${name} not in "src/component". Please add component name on last (\n eg: npm run dev Formily\n)`
   );
   exit();
 }
@@ -20,9 +20,9 @@ const child = spawn(
 );
 
 child.on("error", (error) => {
-  console.error(`错误: ${error}`);
+  console.error(`Error: ${error}`);
 });
 
 child.on("close", (code) => {
-  console.log(`子进程退出,退出码 ${code}`);
+  console.log(`Exit, code: ${code}`);
 });
