@@ -23,7 +23,7 @@ const child = spawn(script, {
 });
 
 child.on("error", (error) => {
-  console.error(`错误: ${error}`);
+  console.error(`Error: ${error}`);
 });
 
 child.on("close", () => {

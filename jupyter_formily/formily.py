@@ -26,7 +26,7 @@ default_schema = {
         "type": "string",
         "x-component": "Text",
         "x-component-props": {
-          "content": "可以前往：https://designable-antd.formilyjs.org/ 设计表单，并获取JSON schema",
+          "content": "Go to: https://designable-antd.formilyjs.org/ design form, and generate JSON schema",
           "style": {
             "margin": "0px 0px 0px 0px",
             "display": "flex",

@@ -1,93 +1,91 @@
-# Jupyter Components
+# jupyter-formily
 
-This project is custom widgets for Jupyter notebook, which is constructed base on [anywidget](https://github.com/manzt/anywidget). The supported widgets as following:
-|  Widget   | Base On  | Params  |
-|  ----  | ----  | ----  |
-| Button  | [Antd Button](https://ant-design.antgroup.com/components/button) | ```{label: string; on_click: function; props: dict}``` |
-| FileSelector  |  | ```{label: string; default_value: string; dir_select: bool}``` |
-| Formily  | [formily](https://github.com/alibaba/formily) | ```{schema: Dict;  show_modal: bool}``` |
-| Input  | [Antd Input](https://ant-design.antgroup.com/components/input) | ```{label: string; props: dict}``` |
-| Radio  | [Antd Radio](https://ant-design.antgroup.com/components/radio) | ```{label: string; options: list; default_value: string; props: dict}``` |
-| Select  | [Antd Select](https://ant-design.antgroup.com/components/select) | ```{label: string; options: list; default_value: string; props: dict}``` |
+This project integrates [formily](https://github.com/alibaba/formily) to jupyter notebook, which base on [anywidget](https://github.com/manzt/anywidget).
 
-For ```Formily``` widget, you can design schema by https://designable-antd.formilyjs.org/. In addition, we create a custom file selector, which can be use with 
+## Usage
+
+You can create a form as follow:
+
+```python
+example = Formily(schema, options)
+display(example)
+```
+
+### schema
+
+For `schema` variable, you can design in https://designable-antd.formilyjs.org/. In addition, we create a custom file picker, which can be use with
+
 ```json
 {
+  "type": "object",
+  "properties": {
     ...
-    "x-component": "FileSelectorForFormily"
+    "file_pick_example": {
+      "type": "string",
+      "title": "Example",
+      "x-decorator": "FormItem",
+      "x-component": "FilePicker",
+      "x-validator": [],
+      "x-component-props": {"init_path": "C:\\Users"},
+      "x-decorator-props": {},
+      "name": "file_pick_example",
+      "x-designable-id": "8j01zeibhn3",
+      "x-index": 1
+    },
     ...
+  }
 }
 ```
-Check ```demo.ipynb``` for more information.
+
+**Custom file picker props:**
+
+| x-component-props | Type                                                                 | Default value |
+| ----------------- | -------------------------------------------------------------------- | ------------- |
+| select_type       | 'folder' \| 'file' \| 'both'                                         | 'both'        |
+| init_path         | string \| undefined                                                  | undefined     |
+| input_props       | [InputProps](https://ant-design.antgroup.com/components/input#input) | {}            |
 
 
-## How to install dependencies
+### options
+
+`options` is dict, and key as follow:
+
+| key          | Type                                                                                                                    | Default value |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------- | ------------- |
+| show_modal   | bool                                                                                                                    | True          |
+| ok_label     | string                                                                                                                  | "Update"      |
+| cancel_label | string                                                                                                                  | "Cancel"      |
+| ok_props     | [ISubmitProps](https://ant-design.antgroup.com/components/button#api)                                                   | {}            |
+| cancel_props | [ButtonProps](https://ant-design.antgroup.com/components/button#api)                                                    | {}            |
+| form_props   | [IFormLayoutProps](https://github.com/alibaba/formily/blob/formily_next/packages/antd/src/form-layout/index.tsx#L6-L38) | {}            |
+| modal_props  | [ModalProps](https://ant-design.antgroup.com/components/modal#api)                                                      | {}            |
+
+Check `demo.ipynb` for more information.
+
+## Development
+
+### Install
 
 You need to install dependencies both python and javascript. Please make sure you have installed [poetry](https://github.com/python-poetry/poetry) and [yarn](https://github.com/yarnpkg/yarn).
-``` shell
-# python 
+
+```shell
+# python
 poetry install
 
 # javascript
-cd vendor && yarn install
+cd vendor/formily && yarn install
 ```
 
-## How to build
+### Dev
 
-``` shell
+```shell
+cd vendor/formily && npm run dev Formily
+```
+
+Then you can check widget in `demo.ipynb`.
+
+### Build
+
+```shell
 ./build.sh
 ```
-
-## How to create a new widget
-Please follow steps below if you need to create a new widget.
-1. Add a [component_name]().tsx file to ```vendor/src/component/```. The [component_name]() should start with A to Z, so it can be read as component.
-
-``` tsx
-// Example.tsx
-import React from "react";
-import { useModelState } from "@anywidget/react";
-
-const Example: React.FC = () => {
-  const [variableA, setVariableA] = useModelState("variable_a");
-  return (
-    <div>This is Example. {variableA}</div>
-  );
-};
-
-export default Example;
-
-```
-
-2. Add a [widget_name]().py file to ```jupyter_formily/```.
-```python
-# example.py
-import anywidget
-import traitlets
-import os
-from ._contant import PARENT_DIR_PATH
-
-ESM = os.path.join(PARENT_DIR_PATH, "vendor/formily/Example.js")
-CSS = ""
-
-class Example(anywidget.AnyWidget):
-    _esm = ESM
-    _css = CSS
-    variable_a = traitlets.Unicode("").tag(sync=True)
-
-    def __init__(self, variable_a=""):
-        super(Example, self).__init__()
-        self.variable_a = variable_a
-```
-
-3. Run ``` npm run dev component_name ``` to build new component. Then you can start developing in jupyter notebook.
-``` python
-# notebook cell
-
-from jupyter_formily.example import Example
-
-widget = Example("variable_a")
-display(widget)
-```
-
-4. For more information, please refer:
-  - [@anywidget/react](https://github.com/manzt/anywidget/tree/main/packages/react)
