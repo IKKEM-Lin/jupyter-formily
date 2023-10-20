@@ -32,12 +32,11 @@ jobs:
       uses: knowsuchagency/poetry-install@v2
     - name: Install dependencies
       run: |
-        poetry install
         cd vendor/formily
         npm install --legacy-peer-deps
         cd ../..
     - name: build
-      run:
+      run: |
         cd vendor/formily
         npm run build
         cd ../..
