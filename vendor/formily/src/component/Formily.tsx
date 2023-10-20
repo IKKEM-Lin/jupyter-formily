@@ -34,9 +34,9 @@ import { Card, Slider, Rate, Modal, Button, Divider } from "antd";
 import React, { useEffect, useState } from "react";
 import PathSelectorForFormily from "./_PathSelectorForFormily";
 
-import type {ISubmitProps, IFormLayoutProps} from "@formily/antd-v5";
-import type {ButtonProps} from "antd/lib/button";
-import type {ModalProps} from "antd/lib/modal";
+import type { ISubmitProps, IFormLayoutProps } from "@formily/antd-v5";
+import type { ButtonProps } from "antd/lib/button";
+import type { ModalProps } from "antd/lib/modal";
 
 const Text: React.FC<{
   value?: string;
@@ -78,7 +78,7 @@ const SchemaField = createSchemaField({
     Card,
     Slider,
     Rate,
-    FilePicker: PathSelectorForFormily,  // Custom component
+    FilePicker: PathSelectorForFormily, // Custom component
   },
 });
 
@@ -94,13 +94,26 @@ interface IOptions {
   modal_props: ModalProps;
 }
 
+interface ISchemaJSON extends ISchema {
+  form?: IFormLayoutProps;
+  schema?: ISchema;
+}
+
 const Formily: React.FC = () => {
-  const [schema] = useModelState<ISchema>("schema");
+  const [schema] = useModelState<ISchemaJSON>("schema");
   const [value, setValue] = useModelState<Record<string, any>>("value");
   const [options] = useModelState<IOptions>("options");
   const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const {show_modal, ok_label, cancel_label, ok_props, cancel_props, form_props, modal_props} = options;
+  const {
+    show_modal,
+    ok_label,
+    cancel_label,
+    ok_props,
+    cancel_props,
+    form_props,
+    modal_props,
+  } = options;
 
   const handleOK = (data: Record<string, any>) => {
     setValue(data);
@@ -115,13 +128,22 @@ const Formily: React.FC = () => {
     console.log(value);
   }, [value]);
 
+  const formLayoutFromJSON = schema?.form || {};
+  const schemaFromJSON = schema?.schema || schema;
+
   const formResult = (
-    <Form {...form_props} form={form}>
-      <SchemaField schema={schema} />
+    <Form {...formLayoutFromJSON} {...form_props} form={form}>
+      <SchemaField schema={schemaFromJSON} />
       <Divider />
       <FormButtonGroup align="right">
-        <Submit {...ok_props} onSubmit={handleOK}>{ok_label}</Submit>
-        {show_modal && <Button {...cancel_props} onClick={handleCancel}>{cancel_label}</Button>}
+        <Submit {...ok_props} onSubmit={handleOK}>
+          {ok_label}
+        </Submit>
+        {show_modal && (
+          <Button {...cancel_props} onClick={handleCancel}>
+            {cancel_label}
+          </Button>
+        )}
       </FormButtonGroup>
     </Form>
   );
