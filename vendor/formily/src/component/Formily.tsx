@@ -34,8 +34,9 @@ import { Card, Slider, Rate, Modal, Button, Divider } from "antd";
 import React, { useEffect, useState } from "react";
 import PathSelectorForFormily from "./_PathSelectorForFormily";
 
-import type {ISubmitProps} from "@formily/antd-v5";
+import type {ISubmitProps, IFormLayoutProps} from "@formily/antd-v5";
 import type {ButtonProps} from "antd/lib/button";
+import type {ModalProps} from "antd/lib/modal";
 
 const Text: React.FC<{
   value?: string;
@@ -77,7 +78,7 @@ const SchemaField = createSchemaField({
     Card,
     Slider,
     Rate,
-    FileSelectorForFormily: PathSelectorForFormily,  // Custom component
+    FilePicker: PathSelectorForFormily,  // Custom component
   },
 });
 
@@ -89,6 +90,8 @@ interface IOptions {
   cancel_label: string;
   ok_props: ISubmitProps;
   cancel_props: ButtonProps;
+  form_props: IFormLayoutProps;
+  modal_props: ModalProps;
 }
 
 const Formily: React.FC = () => {
@@ -97,7 +100,7 @@ const Formily: React.FC = () => {
   const [options] = useModelState<IOptions>("options");
   const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const {show_modal, ok_label, cancel_label, ok_props, cancel_props} = options;
+  const {show_modal, ok_label, cancel_label, ok_props, cancel_props, form_props, modal_props} = options;
 
   const handleOK = (data: Record<string, any>) => {
     setValue(data);
@@ -113,7 +116,7 @@ const Formily: React.FC = () => {
   }, [value]);
 
   const formResult = (
-    <Form form={form} layout="vertical">
+    <Form {...form_props} form={form}>
       <SchemaField schema={schema} />
       <Divider />
       <FormButtonGroup align="right">
@@ -129,7 +132,8 @@ const Formily: React.FC = () => {
 
   return (
     <Modal
-      title=""
+      title="&nbsp;"
+      {...modal_props}
       open={isModalOpen}
       footer={null}
       onCancel={handleCancel}

@@ -52,6 +52,8 @@ class Formily(anywidget.AnyWidget):
         "cancel_label": "Cancel",
         "ok_props": {},
         "cancel_props": {},
+        "form_props": {},
+        "modal_props": {},
     }).tag(sync=True)
     
     # variable for custom file selector

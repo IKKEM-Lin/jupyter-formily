@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, List, Breadcrumb, message, Popover, Input } from "antd";
+import type { InputProps } from "antd/lib/input";
 import {
   FolderFilled,
   FolderOpenOutlined,
@@ -30,19 +31,17 @@ interface IReactiveFieldProps<T> {
 }
 
 interface IPathSelectorForFormily extends IReactiveFieldProps<string> {
-  label?: string;
   select_type?: "folder" | "file" | "both";
   init_path?: string;
+  input_props?: InputProps;
 }
 
 const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
   (props) => {
     // console.log({props})
     const value = props?.value;
-    // const label = props?.label;
+    const inputProps = props?.input_props  || {};
     const selectType = props?.select_type || "both";
-    // const title =
-    //   label || (selectType === "folder" ? "Folder select" : "File select");
     const [osSep] = useModelState<string>("os_sep");
     const [msg, setMsg] = useModelState<IMsg>("msg");
     const [pwd, setPwd] = useModelState<string>("pwd");
@@ -195,6 +194,7 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
             trigger="click"
           >
             <Input
+              {...inputProps}
               value={value}
               suffix={<FolderOpenOutlined />}
               onChange={(evt) => props.onChange(evt.target.value)}
