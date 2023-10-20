@@ -7,6 +7,8 @@ This project integrates [formily](https://github.com/alibaba/formily) to jupyter
 You can create a form as follow:
 
 ```python
+from jupyter_formily import Formily
+
 example = Formily(schema, options)
 display(example)
 ```
