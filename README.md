@@ -1,10 +1,13 @@
 # jupyter-formily
 
-This project integrates [formily](https://github.com/alibaba/formily) to jupyter notebook, which base on [anywidget](https://github.com/manzt/anywidget).
+Use [formily](https://github.com/alibaba/formily) in Jupyter.
+## Installation
+
+```bash
+pip install jupyter-formily
+```
 
 ## Usage
-
-You can create a form as follow:
 
 ```python
 from jupyter_formily import Formily
@@ -13,39 +16,37 @@ example = Formily(schema, options)
 display(example)
 ```
 
-### schema
+### Build Schema with Formily Designer
 
-For `schema` variable, you can design in https://designable-antd.formilyjs.org/. In addition, we create a custom file picker, which can be use with
+https://designable-antd.formilyjs.org/
+
+## Custom Components
+Currently custom can not be used via Formily Designer, you have to add them manually.
+A trick to use custom components is to add a similar component in desinger as placeholder.
+And then replace it to the component you want by patching the generated schema.
+
+
+### File Picker
+
+Select file path interactively.
+
 
 ```json
 {
-  "type": "object",
-  "properties": {
-    ...
-    "file_pick_example": {
-      "type": "string",
-      "title": "Example",
-      "x-decorator": "FormItem",
-      "x-component": "FilePicker",
-      "x-validator": [],
-      "x-component-props": {"init_path": "C:\\Users"},
-      "x-decorator-props": {},
-      "name": "file_pick_example",
-      "x-designable-id": "8j01zeibhn3",
-      "x-index": 1
-    },
-    ...
-  }
+  "type": "string",
+  "name": "input_file",
+  "title": "Input File",
+  "x-decorator": "FormItem",
+  "x-component": "FilePicker",
+  "x-validator": [],
+  "x-component-props": {
+    "init_path": "./"
+  },
+  "x-decorator-props": {},
+  "x-designable-id": "8j01zeibhn3",
+  "x-index": 1
 }
 ```
-
-**Custom file picker props:**
-
-| x-component-props | Type                                                                 | Default value |
-| ----------------- | -------------------------------------------------------------------- | ------------- |
-| select_type       | 'folder' \| 'file' \| 'both'                                         | 'both'        |
-| init_path         | string \| undefined                                                  | undefined     |
-| input_props       | [InputProps](https://ant-design.antgroup.com/components/input#input) | {}            |
 
 
 ### options
@@ -75,7 +76,7 @@ You need to install dependencies both python and javascript. Please make sure yo
 poetry install
 
 # javascript
-cd vendor/formily && yarn install
+cd vendor/formily && yarn
 ```
 
 ### Dev
