@@ -64,7 +64,7 @@ class Formily(anywidget.AnyWidget):
 
     def __init__(self, schema = default_schema, options = {}):
         super(Formily, self).__init__()
-        self.value = {"default": 1}
+        self.value = {}
         self.schema = schema
         self.options = {**self.options, **options}
 
