@@ -16,7 +16,7 @@ example = Formily(schema, options)
 display(example)
 ```
 
-`schema` can be constructed with [Formily Designer](https://designable-antd.formilyjs.org/) or craft manually. 
+`schema` can be constructed with [Formily Designer](https://designable-antd.formilyjs.org/) or crafted manually. 
 `options` allows you to tune the form to fit you need.
 
 `options` is dict, and key as follow:
