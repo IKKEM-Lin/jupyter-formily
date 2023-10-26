@@ -126,6 +126,7 @@ const Formily: React.FC = () => {
 
   useEffect(() => {
     console.log(value);
+    form.initialValues = value
   }, [value]);
 
   const formLayoutFromJSON = schema?.form || {};
