@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "jupyter_formily"
+name = "jupyter-formily"
 version = "0.0.1"
 description = "Integrates fomily to jupyter notebook, which base on anywidget"
 authors = ["zllin <mark@xmu.edu.cn>"]
