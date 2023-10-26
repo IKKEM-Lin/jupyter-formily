@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd vendor/formily && npm run build && cd ../..
+( cd vendor/formily && npm run build )
 poetry build
