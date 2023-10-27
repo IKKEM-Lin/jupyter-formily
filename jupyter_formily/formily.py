@@ -3,6 +3,7 @@ import traitlets
 import os
 from ._contant import PARENT_DIR_PATH
 from IPython.display import display
+import time
 
 ESM = os.path.join(PARENT_DIR_PATH, f"vendor{os.sep}formily{os.sep}dist{os.sep}Formily.js")
 CSS = os.path.join(PARENT_DIR_PATH, f"vendor{os.sep}formily{os.sep}dist{os.sep}Formily.css")
@@ -63,6 +64,7 @@ class Formily(anywidget.AnyWidget):
     files = traitlets.List([]).tag(sync=True)
     msg = traitlets.Dict({"content": ""}).tag(sync=True) # use for error msg action
     online = traitlets.Bool(False).tag(sync=True)
+    files_loading = traitlets.Bool(False).tag(sync=True)
 
     def __init__(self, schema = default_schema, options = None, default_value = None):
         super(Formily, self).__init__()
@@ -76,15 +78,22 @@ class Formily(anywidget.AnyWidget):
     
     def _get_files(self, change = ""):
         path = self.pwd
+        self.files_loading = True
+        time.sleep(0.3)
         try:
             files = os.listdir(path)
         except PermissionError as e:
             self.msg = {"content": str(e), "type": "error"}
             self.pwd = os.path.dirname(self.pwd)
             return
+        except BaseException as e:
+            self.msg = {"content": str(e), "type": "error"}
+            self.pwd = os.getcwd()
+            return
         files = [{"name": file, "isDir":  os.path.isdir(os.path.join(path, file))} for file in files]
         files.sort(key=lambda item: item["isDir"], reverse=True)
         self.files = files
+        self.files_loading = False
 
     def display(self):
         display(self)

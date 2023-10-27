@@ -48,6 +48,7 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
     const [msg, setMsg] = useModelState<IMsg>("msg");
     const [pwd, setPwd] = useModelState<string>("pwd");
     const [files] = useModelState<IFile[]>("files");
+    const [loading] = useModelState<boolean>("files_loading");
 
     const divEl = useRef<HTMLDivElement>(null);
     const fileContentEl = useRef<HTMLDivElement>(null);
@@ -140,6 +141,7 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
             <Button
               type="link"
               size="small"
+              disabled={loading}
               onClick={() => {
                 const newPwd = pwdSplit.slice(0, ind + 1).join(osSep);
                 setPwd(newPwd.includes(osSep) ? newPwd : `${newPwd}${osSep}`);
@@ -163,6 +165,7 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
           itemLayout="horizontal"
           style={{ width: "100%" }}
           dataSource={dataSource}
+          loading={loading}
           size="small"
           renderItem={(item, ind) => {
             const isFirstBack = ind === 0 && item.name === "..";
