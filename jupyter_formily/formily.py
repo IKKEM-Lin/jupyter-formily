@@ -50,7 +50,7 @@ class Formily(anywidget.AnyWidget):
     value = traitlets.Dict({}).tag(sync=True)
     options = traitlets.Dict({
         "show_modal": True,
-        "ok_label": "Update",
+        "ok_label": "OK",
         "cancel_label": "Cancel",
         "ok_props": {},
         "cancel_props": {},

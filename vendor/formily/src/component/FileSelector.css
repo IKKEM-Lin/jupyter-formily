@@ -16,7 +16,3 @@
 .file-selector-list .ant-list-item {
     user-select: none;
 }
-
-.path-selector-popover {
-    width: 100%;
-}

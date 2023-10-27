@@ -30,7 +30,7 @@ import {
 } from "@formily/antd-v5";
 import { createForm } from "@formily/core";
 import { createSchemaField, ISchema } from "@formily/react";
-import { Card, Slider, Rate, Modal, Button, Divider } from "antd";
+import { Card, Slider, Rate, Modal, Button, Divider, Popconfirm } from "antd";
 import React, { useEffect } from "react";
 import PathSelectorForFormily from "./_PathSelectorForFormily";
 
@@ -99,6 +99,16 @@ interface ISchemaJSON extends ISchema {
   schema?: ISchema;
 }
 
+const defaultModalProps: ModalProps = {
+  destroyOnClose: true,
+  maskClosable: false,
+  centered: true,
+  closeIcon: null,
+  width: "60vw",
+  style: { maxWidth: "700px" },
+  styles: { body: { maxHeight: "70vh", overflowY: "auto" } },
+};
+
 const Formily: React.FC = () => {
   const [schema] = useModelState<ISchemaJSON>("schema");
   const [online, setOnline] = useModelState<boolean>("online");
@@ -116,9 +126,10 @@ const Formily: React.FC = () => {
     modal_props,
   } = options;
 
-  const handleOK = (data: Record<string, any>) => {
+  const handleOK = () => {
+    const data = form.getState().values;
     const _timestamp = new Date().valueOf();
-    setValue({data, _timestamp});
+    setValue({ data, _timestamp });
     setOnline(false);
   };
 
@@ -128,43 +139,60 @@ const Formily: React.FC = () => {
 
   useEffect(() => {
     console.log(value);
-    form.initialValues = value?.data
+    form.initialValues = value?.data;
   }, [value]);
 
   const formLayoutFromJSON = schema?.form || {};
   const schemaFromJSON = schema?.schema || schema;
 
-  const formResult = (
-    <Form {...formLayoutFromJSON} {...form_props} form={form}>
+  if (!show_modal) {
+    return <Form {...formLayoutFromJSON} {...form_props} form={form}>
       <SchemaField schema={schemaFromJSON} />
       <Divider />
       <FormButtonGroup align="right">
         <Submit {...ok_props} onSubmit={handleOK}>
           {ok_label}
         </Submit>
-        {show_modal && (
-          <Button {...cancel_props} onClick={handleCancel}>
-            {cancel_label}
-          </Button>
-        )}
       </FormButtonGroup>
     </Form>
-  );
-
-  if (!show_modal) {
-    return formResult;
   }
 
   return (
     <Modal
       title="&nbsp;"
       keyboard={false}
+      {...defaultModalProps}
       {...modal_props}
+      classNames={{body: "formily-modal-body " + (modal_props?.classNames?.body || "")}}
+      rootClassName={"formily-modal-root " + (modal_props?.className || "")}
       open={online}
-      footer={null}
+      footer={
+        <>
+          <Divider />
+          <Space>
+            <Button type="primary" {...ok_props} onClick={handleOK}>
+              {ok_label}
+            </Button>
+            <Popconfirm
+              title="Exit modal form"
+              description="The changed data would not be update. Are you sure to exit?"
+              onConfirm={handleCancel}
+              // onCancel={}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button {...cancel_props}>{cancel_label}</Button>
+            </Popconfirm>
+          </Space>
+        </>
+      }
       onCancel={handleCancel}
     >
-      <div onKeyDown={(evt) => evt.stopPropagation()}>{formResult}</div>
+      <div onKeyDown={(evt) => evt.stopPropagation()}>
+        <Form {...formLayoutFromJSON} {...form_props} form={form}>
+          <SchemaField schema={schemaFromJSON} />
+        </Form>
+      </div>
     </Modal>
   );
 };
