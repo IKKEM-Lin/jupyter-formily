@@ -61,16 +61,18 @@ class Formily(anywidget.AnyWidget):
     pwd = traitlets.Unicode("").tag(sync=True)
     files = traitlets.List([]).tag(sync=True)
     msg = traitlets.Dict({"content": ""}).tag(sync=True) # use for error msg action
+    online = traitlets.Bool(False).tag(sync=True)
 
-    def __init__(self, schema = default_schema, options = {}):
+    def __init__(self, schema = default_schema, options = None, default_value = None):
         super(Formily, self).__init__()
-        self.value = {}
+        self.value = default_value or {}
         self.schema = schema
-        self.options = {**self.options, **options}
+        self.options = {**self.options, **(options or {})}
 
         self.pwd = os.getcwd()
         self._get_files()
         self.observe(self._get_files, names='pwd')
+        self.online = True
     
     def _get_files(self, change = ""):
         path = self.pwd

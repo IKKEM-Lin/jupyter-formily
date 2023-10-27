@@ -101,9 +101,10 @@ interface ISchemaJSON extends ISchema {
 
 const Formily: React.FC = () => {
   const [schema] = useModelState<ISchemaJSON>("schema");
+  const [online] = useModelState<boolean>("online");
   const [value, setValue] = useModelState<Record<string, any>>("value");
   const [options] = useModelState<IOptions>("options");
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(online);
 
   const {
     show_modal,
