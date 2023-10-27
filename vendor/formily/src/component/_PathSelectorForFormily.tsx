@@ -6,6 +6,7 @@ import {
   FolderOpenOutlined,
   FileOutlined,
   CloseOutlined,
+  CheckOutlined
 } from "@ant-design/icons";
 import { useModelState } from "@anywidget/react";
 import "./FileSelector.css";
@@ -53,6 +54,7 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
     const inputEl = useRef<any>(null);
     const [popupContainer, setPopupContainer] = useState<HTMLDivElement>();
     const [popupOpen, setPopupOpen] = useState<boolean>(false);
+    const escEvent = useRef<any>(null);
 
     useEffect(() => {
       if (divEl.current) {
@@ -79,6 +81,21 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
         setPwd(props.init_path);
       }
     }, [props.init_path, popupOpen]);
+
+    useEffect(() => {
+      if (popupOpen) {
+        escEvent.current = (evt: KeyboardEvent) => {
+          // console.log(evt)
+          if (evt.key === "Escape") {
+            evt.stopPropagation();
+            setPopupOpen(false);
+          }
+        };
+        window.addEventListener("keydown", escEvent.current, true);
+      } else {
+        window.removeEventListener("keydown", escEvent.current, true);
+      }
+    }, [popupOpen]);
 
     useEffect(() => {
       try {
@@ -147,23 +164,30 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
           style={{ width: "100%" }}
           dataSource={dataSource}
           size="small"
-          renderItem={(item, ind) => (
-            <List.Item
+          renderItem={(item, ind) => {
+            const isFirstBack = ind === 0 && item.name === "..";
+            const hideSelectBtn = isFirstBack || (selectType === "file" && item.isDir)
+            return <List.Item
               className={
                 joinPath(pwd, item.name) === value ? "file-selected" : ""
               }
+              style={item.isDir ? { cursor: "pointer" } : {}}
+              actions={hideSelectBtn ? [] : [
+                <Button
+                  icon={<CheckOutlined size={16} />}
+                  rootClassName="file-selector-select-btn"
+                  size="small"
+                  shape="circle"
+                  type="text"
+                  onClick={evt => {
+                    evt.stopPropagation();
+                    props.onChange(joinPath(pwd, item.name));
+                    setPopupOpen(false);
+                  }}
+                />,
+              ]}
               onClick={() => {
-                if (ind === 0 && item.name === "..") {
-                  return;
-                }
-                if (selectType !== "file") {
-                  props.onChange(joinPath(pwd, item.name));
-                } else {
-                  !item.isDir && props.onChange(joinPath(pwd, item.name));
-                }
-              }}
-              onDoubleClick={() => {
-                if (ind === 0 && item.name === "..") {
+                if (isFirstBack) {
                   const newPwd = pwdSplit
                     .slice(0, pwdSplit.length - 1)
                     .join(osSep);
@@ -172,8 +196,6 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
                 }
                 if (item.isDir) {
                   setPwd(joinPath(pwd, item.name));
-                } else {
-                  props.onChange(joinPath(pwd, item.name));
                 }
               }}
             >
@@ -189,10 +211,10 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
                     <FileOutlined />
                   )
                 }
-                title={item.name}
+                title={<div style={{ fontWeight: "normal" }}>{item.name}</div>}
               />
             </List.Item>
-          )}
+          }}
         />
       </div>
     );
@@ -216,7 +238,7 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
                   shape="circle"
                   type="text"
                   onClick={() => {
-                    setPopupOpen(false)
+                    setPopupOpen(false);
                   }}
                 />
               </Row>

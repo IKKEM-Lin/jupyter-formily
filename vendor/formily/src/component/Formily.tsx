@@ -158,6 +158,7 @@ const Formily: React.FC = () => {
   return (
     <Modal
       title="&nbsp;"
+      keyboard={false}
       {...modal_props}
       open={online}
       footer={null}
