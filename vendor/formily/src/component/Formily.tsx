@@ -117,7 +117,8 @@ const Formily: React.FC = () => {
   } = options;
 
   const handleOK = (data: Record<string, any>) => {
-    setValue(data);
+    const _timestamp = new Date().valueOf();
+    setValue({data, _timestamp});
     setIsModalOpen(false);
   };
 
@@ -127,7 +128,7 @@ const Formily: React.FC = () => {
 
   useEffect(() => {
     console.log(value);
-    form.initialValues = value
+    form.initialValues = value?.data
   }, [value]);
 
   const formLayoutFromJSON = schema?.form || {};
