@@ -31,7 +31,7 @@ import {
 import { createForm } from "@formily/core";
 import { createSchemaField, ISchema } from "@formily/react";
 import { Card, Slider, Rate, Modal, Button, Divider } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PathSelectorForFormily from "./_PathSelectorForFormily";
 
 import type { ISubmitProps, IFormLayoutProps } from "@formily/antd-v5";
@@ -101,10 +101,10 @@ interface ISchemaJSON extends ISchema {
 
 const Formily: React.FC = () => {
   const [schema] = useModelState<ISchemaJSON>("schema");
-  const [online] = useModelState<boolean>("online");
+  const [online, setOnline] = useModelState<boolean>("online");
   const [value, setValue] = useModelState<Record<string, any>>("value");
   const [options] = useModelState<IOptions>("options");
-  const [isModalOpen, setIsModalOpen] = useState(online);
+  // const [isModalOpen, setIsModalOpen] = useState(online);
 
   const {
     show_modal,
@@ -119,11 +119,11 @@ const Formily: React.FC = () => {
   const handleOK = (data: Record<string, any>) => {
     const _timestamp = new Date().valueOf();
     setValue({data, _timestamp});
-    setIsModalOpen(false);
+    setOnline(false);
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setOnline(false);
   };
 
   useEffect(() => {
@@ -159,7 +159,7 @@ const Formily: React.FC = () => {
     <Modal
       title="&nbsp;"
       {...modal_props}
-      open={isModalOpen}
+      open={online}
       footer={null}
       onCancel={handleCancel}
     >

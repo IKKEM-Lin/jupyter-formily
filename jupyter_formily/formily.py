@@ -2,6 +2,7 @@ import anywidget
 import traitlets
 import os
 from ._contant import PARENT_DIR_PATH
+from IPython.display import display
 
 ESM = os.path.join(PARENT_DIR_PATH, f"vendor{os.sep}formily{os.sep}dist{os.sep}Formily.js")
 CSS = os.path.join(PARENT_DIR_PATH, f"vendor{os.sep}formily{os.sep}dist{os.sep}Formily.css")
@@ -72,7 +73,6 @@ class Formily(anywidget.AnyWidget):
         self.pwd = os.getcwd()
         self._get_files()
         self.observe(self._get_files, names='pwd')
-        self.online = True
     
     def _get_files(self, change = ""):
         path = self.pwd
@@ -85,3 +85,7 @@ class Formily(anywidget.AnyWidget):
         files = [{"name": file, "isDir":  os.path.isdir(os.path.join(path, file))} for file in files]
         files.sort(key=lambda item: item["isDir"], reverse=True)
         self.files = files
+
+    def display(self):
+        display(self)
+        self.online = True
