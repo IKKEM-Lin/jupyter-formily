@@ -264,7 +264,7 @@ const PathSelectorForFormily: React.FC<IPathSelectorForFormily> = observer(
                     setPopupOpen(open);
                   }}
                   destroyTooltipOnHide
-                  placement="bottomLeft"
+                  placement="bottomRight"
                   arrow={false}
                   rootClassName="path-selector-popover"
                   getPopupContainer={() =>
