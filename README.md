@@ -27,7 +27,7 @@ display(example)
 | key          | Type                                                                                                                    | Default value |
 | ------------ | ----------------------------------------------------------------------------------------------------------------------- | ------------- |
 | show_modal   | bool                                                                                                                    | True          |
-| ok_label     | string                                                                                                                  | "Update"      |
+| ok_label     | string                                                                                                                  | "OK"      |
 | cancel_label | string                                                                                                                  | "Cancel"      |
 | ok_props     | [ISubmitProps](https://ant-design.antgroup.com/components/button#api)                                                   | {}            |
 | cancel_props | [ButtonProps](https://ant-design.antgroup.com/components/button#api)                                                    | {}            |
